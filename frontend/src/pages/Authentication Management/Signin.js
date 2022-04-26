@@ -3,7 +3,7 @@ import { Form, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import 'antd/dist/antd.css';
 import './stylesSignin.css'
-import logo from '../../Images/logo1.png';
+import logo from '../../Images/logo.png';
 import { Link } from "react-router-dom";
 import useRequest from "../../services/RequestContext";
 import useUser from "../../services/UserContext";
