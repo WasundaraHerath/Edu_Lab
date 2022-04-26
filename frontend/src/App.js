@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import MainRouter from "./MainRouter";
+import Header from "../src/components/Header";
+import {  BrowserRouter as Router } from "react-router-dom";
+import { RequestContextProvider } from "./services/RequestContext";
+import { UserContextProvider } from "./services/UserContext";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <RequestContextProvider baseURL={"http://localhost:4000/api/"}>
+    <UserContextProvider>
+      <Router>
+        <Header />
+        <MainRouter /> 
+      </Router>
+      </UserContextProvider>
+    </RequestContextProvider>
+</>
   );
 }
-
 export default App;
