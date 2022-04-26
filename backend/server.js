@@ -1,42 +1,45 @@
 const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
-
 const cors = require("cors");
+const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+
+dotenv.config();
 const app = express();
-//reading url in .env file
-require("dotenv").config();
 
-//Define port
-const PORT = process.env.PORT || 8070;
-
-app.use(cors());
 app.use(express.json());
-app.use(cookieParser());
+app.use(cors());
 
-//Connect database
-
-const URL = process.env.MONGODB_URL;
-
-mongoose.connect(URL, {
-  useCreateIndex: true,
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
+mongoose.connect(process.env.DB_CONNECT, err => {
+  if (err) {
+    console.log("mongo connection error ", err);
+  } else {
+    console.log("Mongodb connection success");
+  }
 });
-//open created database connection
-const connection = mongoose.connection;
-connection.once("open", () => {
-  console.log("mongodb Connection success");
-});
-//access to supplier.js
-// const supplierRouter = require("./routes/supplier.js");
-// app.use("/supplier",supplierRouter);
 
 
-//running port 8970
-app.listen(PORT, () => {
-  console.log(`Server is up and running on port no: ${PORT}`);
+
+
+
+const routEnroll = require("./Routes/StudentRoute");
+app.use("/api/student",routEnroll);
+
+const courseroute = require("./Routes/CourseRoute");
+app.use("/api/course",courseroute);
+
+const routQuestion = require("./Routes/LecturerRoute");
+app.use("/api/lecturer", routQuestion);
+
+const routAuthentication = require("./Routes/AuthenticationRoute");
+app.use("/api/AuthenticationRoute", routAuthentication);
+
+
+
+app.listen(4000, err => {
+  if (!err) {
+    console.log("successfully connected to the port ", 4000);
+  } else {
+  
+    console.log("error occured ", err);
+  }
 });

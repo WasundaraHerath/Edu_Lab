@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, DatePicker, Radio, message,Row } from "antd";
+import { Form, Input, Button, DatePicker, Radio, message } from "antd";
 import './stylesSignup.css'
 import 'antd/dist/antd.css';
 import useRequest from "../../services/RequestContext";
@@ -16,8 +16,6 @@ function SignupStd() {
       span: 14
     }
   };
-
-  const [form] = Form.useForm();
 
   const validateMessages = {
     required: "${label} is required!",
@@ -40,11 +38,6 @@ function SignupStd() {
     } catch (e) {
       console.log("post signSTD error ", e);
     }
-    form.resetFields();
-  };
-
-  const onReset = () => {
-    form.resetFields();
   };
 
   const [value] = React.useState(1);
@@ -59,14 +52,14 @@ function SignupStd() {
           <h1>Sign Up</h1>
           <h2>As a Student</h2>
 
-          <Form layout="vertical" form={form} name="signupStd" onFinish={onFinish} validateMessages={validateMessages}>
+          <Form layout="vertical" name="signupStd" onFinish={onFinish} validateMessages={validateMessages}>
 
             <Form.Item
               name={['name']}
               label="First Name"
               rules={[
                 {
-                  required: true,       
+                  required: true,
                 },
               ]}
             >
@@ -202,14 +195,9 @@ function SignupStd() {
 
             <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
               {/* <Link to ="/home2" > */}
-              <Row>
               <Button type="primary" htmlType="submit">
                 Submit
               </Button>
-              <Button htmlType="button" onClick={onReset}  className="resetBtn1" >
-                Reset
-              </Button>
-              </Row>
               {/* </Link> */}
             </Form.Item>
 

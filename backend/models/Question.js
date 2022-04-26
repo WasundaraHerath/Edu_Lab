@@ -5,31 +5,29 @@ const questionSchema = new mongoose.Schema({
         type: String,
         required: true,
         min: 5,
-        max: 25,
+        max: 255,
+
     },
     email:{
         type: String,
-        required: true,       
+        required: true,
+        
     },
     courseName:{
         type: String,
-        required: true,       
+        required: true,
+        
     },
     topic:{
         type: String,
-        required: true, 
-        max:30,       
+        required: true,
+        
     },
     question:{
         type: String,
-        required: true, 
-        max:500,  
+        required: true,
+        
     },
-
-    userID:{
-        type: String,
-        required: true
-    }
 });
 
 const Question = mongoose.model('Question', questionSchema);

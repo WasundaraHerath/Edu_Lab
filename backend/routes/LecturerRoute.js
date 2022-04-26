@@ -1,24 +1,11 @@
 const router = require("express").Router();
 const Question = require("../Models/Question");
 const Notice = require("../Models/Notice");
-const extractToken = require("../TokenExtract");
-const jwt_decode = require('jwt-decode');
 
 //insert Question
 router.post("/question", async (req, res) => {
   try {
-    const decodeHeade = jwt_decode(extractToken(req));
-    const userID = decodeHeade.data._id;
-    console.log("header", decodeHeade);
-    console.log("ID : ", userID);
-    const question = new Question({
-      studentName: req.body.studentName,
-      email: req.body.email,
-      courseName: req.body.courseName,
-      topic: req.body.topic,
-      question: req.body.question,
-      userID: userID
-    });
+    const question = new Question(req.body);
     const savedQuestion = await question.save();
     if (savedQuestion) {
       res.status(201).send({ message: "success", data: savedQuestion });
@@ -54,18 +41,7 @@ router.get("/question/findAll", async (req, res) => {
   try {
     const findAll = await Question.find(req.params);
     res.json(findAll);
-    console.log("result,", findAll);
-  } catch (err) {
-    console.log("error in get data", err);
-    res.status(204).send({ message: "failed", data: err });
-  }
-});
-
-//get question by id
-router.get("/question/findAll/:userID", async (req, res) => {
-  try {
-    const findAll = await Question.find(req.params);
-    res.json(findAll);
+    console.log("result," ,findAll);
   } catch (err) {
     console.log("error in get data", err);
     res.status(204).send({ message: "failed", data: err });
@@ -77,7 +53,7 @@ router.get("/notice/findAll", async (req, res) => {
   try {
     const findAll = await Notice.find(req.params);
     res.json(findAll);
-    console.log("result,", findAll);
+    console.log("result," ,findAll);
   } catch (err) {
     console.log("error in get data", err);
     res.status(204).send({ message: "failed", data: err });
@@ -87,12 +63,12 @@ router.get("/notice/findAll", async (req, res) => {
 //Get Specific question
 router.get("/question/:id", async (req, res) => {
   try {
-    const question = await Question.findById(req.params.id);
-    res.json(question);
-    console.log("result , ", question);
+      const question = await Question.findById(req.params.id);
+      res.json(question);
+      console.log("result , ", question);
   } catch (err) {
-    console.log("error in getting marks", err);
-    res.status(204).send({ message: "failed", data: err });
+      console.log("error in getting marks", err);
+      res.status(204).send({ message: "failed", data: err });
   }
 });
 
@@ -123,9 +99,9 @@ router.delete("/notice/:id", async (req, res) => {
 //update Question
 router.put("/question/:id", async (req, res) => {
   try {
-    const updateQuestion = await Question.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    const updateQuestion = await Question.findByIdAndUpdate(req.params.id,req.body, {new:true});
     res.json(updateQuestion);
-    console.log("result,", updateQuestion);
+    console.log("result,",updateQuestion);
   } catch (err) {
     console.log("error in getting review details", err);
     res.status(204).send({ message: "failed", data: err });
